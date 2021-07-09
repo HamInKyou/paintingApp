@@ -22,6 +22,7 @@ ctx.lineWidth = 2.5; //펜의 두께
 const colors = document.querySelectorAll(".jsColor");
 const range = document.querySelector("#jsRange");
 const mode = document.querySelector("#jsMode");
+const saveBtn = document.querySelector("#jsSave");
 
 //그림 그리는 상태를 나타내는 변수 -> false면 그림 그리는 중이 아니다.
 let painting = false;
@@ -55,11 +56,21 @@ function onMouseMove(event) {
   }
 }
 
+//캔버스 클릭할 때 이벤트 핸들링
 function handleCanvasClick() {
   if (filling) {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
 }
+
+//캔버스 우클릭할 때 이벤트 핸들링
+function handleContextMenu(event) {
+  //우클릭할 때 기본적으로 발생하는 contextMenu를 안나타나게 한다!
+  //캔버스 우클릭해서 이미지 다른이름으로 저장 못하게!
+  //우리가 만든 save 버튼을 통해서만 이미지 저장할 수 있게!
+  event.preventDefault();
+}
+
 if (canvas) {
   canvas.addEventListener("mousemove", onMouseMove);
 
@@ -74,6 +85,9 @@ if (canvas) {
 
   //캔버스를 클릭
   canvas.addEventListener("click", handleCanvasClick);
+
+  //캔버스 우클릭하면 발생하는 이벤트
+  canvas.addEventListener("contextmenu", handleContextMenu);
 }
 
 function handleColorClick(event) {
@@ -104,4 +118,17 @@ function handleModeClick() {
 
 if (mode) {
   mode.addEventListener("click", handleModeClick);
+}
+
+function handleSaveClick() {
+  const image = canvas.toDataURL("image/png"); //캔버스의 데이터를 이미지 URL로 변환해준다!
+  const link = document.createElement("a");
+  link.href = image; //이미지 URL을 a태그랑 연결해준다.
+  //download 속성을 부여하여 그 URL을 통해 이미지를 다운받을 수 있게 해준다.
+  //download에 넣는 값은 이미지 다운로드 받을 때 그 파일 이름을 지정해주는 것! -> 꼭 지정해줘야한다!
+  link.download = "painJs[EXPORT]";
+  link.click(); //만든 a태그를 바로 클릭해준다
+}
+if (saveBtn) {
+  saveBtn.addEventListener("click", handleSaveClick);
 }
