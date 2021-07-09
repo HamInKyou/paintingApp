@@ -13,6 +13,8 @@ canvas.width = CANVAS_SIZE;
 canvas.height = CANVAS_SIZE;
 
 //context의 default 설정
+ctx.fillStyle = "#ffffff";
+ctx.fillRect(0, 0, canvas.width, canvas.height); //기본적으로 캔버스의 배경을 흰색으로 깔아주고 시작하자.
 ctx.strokeStyle = INITIAL_COLOR; //펜의 색상
 ctx.fillStyle = INITIAL_COLOR; //채우기 색상
 ctx.lineWidth = 2.5; //펜의 두께
@@ -27,8 +29,12 @@ let painting = false;
 //현재 filling 모드인지 나타내는 변수 -> true면 filling Mode 상태
 let filling = false;
 
-function startPainting() {
-  painting = true;
+function startPainting(event) {
+  ctx.beginPath(); //라인의 시작을 명시해준다. (이제 시작할거야)
+  if (event.which === 1) {
+    //마우스 좌클릭 때만 그림 그려지게
+    painting = true;
+  }
 }
 
 function stopPainting() {
@@ -42,7 +48,6 @@ function onMouseMove(event) {
   const y = event.offsetY;
 
   if (!painting) {
-    ctx.beginPath(); //라인의 시작을 명시해준다. (이제 시작할거야)
     ctx.moveTo(x, y); //라인을 만들기 시작할 위치를 이 좌표로 옮긴다.
   } else {
     ctx.lineTo(x, y); //시작 좌표에서 이 좌표까지 라인을 이어준다. ( 그 다음 lineTo는 전 lineTo 끝난 지점을 시작 지점으로 삼는다.)
