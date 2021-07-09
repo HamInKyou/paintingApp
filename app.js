@@ -15,9 +15,13 @@ ctx.lineWidth = 2.5; //펜의 두께
 
 const colors = document.querySelectorAll(".jsColor");
 const range = document.querySelector("#jsRange");
+const mode = document.querySelector("#jsMode");
 
 //그림 그리는 상태를 나타내는 변수 -> false면 그림 그리는 중이 아니다.
 let painting = false;
+
+//현재 filling 모드인지 나타내는 변수 -> true면 filling Mode 상태
+let filling = false;
 
 function startPainting() {
   painting = true;
@@ -68,4 +72,18 @@ function handleRangeChange(event) {
 if (range) {
   //range는 값을 바꿀 때마다 input이 새로 설정되어 이벤트가 발생한다.
   range.addEventListener("input", handleRangeChange);
+}
+
+function handleModeClick() {
+  if (filling === true) {
+    filling = false;
+    mode.innerText = "Fill";
+  } else {
+    filling = true;
+    mode.innerText = "paint";
+  }
+}
+
+if (mode) {
+  mode.addEventListener("click", handleModeClick);
 }
