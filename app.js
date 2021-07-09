@@ -13,6 +13,8 @@ canvas.height = 700;
 ctx.strokeStyle = "#2c2c2c"; //펜의 색상
 ctx.lineWidth = 2.5; //펜의 두께
 
+const colors = document.querySelectorAll(".jsColor");
+
 //그림 그리는 상태를 나타내는 변수 -> false면 그림 그리는 중이 아니다.
 let painting = false;
 
@@ -51,3 +53,9 @@ if (canvas) {
   //캔버스 위에 있다가 마우스가 캔버스 위를 벗어났을 때 발생하는 이벤트
   canvas.addEventListener("mouseleave", stopPainting);
 }
+
+function handleColorClick(event) {
+  const color = event.target.style.backgroundColor;
+  ctx.strokeStyle = color; //strokeStyle(펜 색깔)을 선택한 요소의 배경색깔로 바꿔준다.
+}
+colors.forEach((color) => color.addEventListener("click", handleColorClick));
