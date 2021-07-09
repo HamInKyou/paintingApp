@@ -1,3 +1,6 @@
+const INITIAL_COLOR = "#2c2c2c";
+const CANVAS_SIZE = 700;
+
 const canvas = document.querySelector("#jsCanvas");
 //canvas는 html의 한 요소로, context를 갖는다.
 //context라는 건 이 요소 안에서 우리가 픽셀에 접근할 수 있는 방법이다.
@@ -6,11 +9,12 @@ const ctx = canvas.getContext("2d"); //context를 이용해서 convas 위의 픽
 //canvas는 속성으로 width, height만 가진다.
 //이 width와 height의 영역 안에서만 그릴 수 있다.
 //css의 width, height랑은 별개!
-canvas.width = 700;
-canvas.height = 700;
+canvas.width = CANVAS_SIZE;
+canvas.height = CANVAS_SIZE;
 
 //context의 default 설정
-ctx.strokeStyle = "#2c2c2c"; //펜의 색상
+ctx.strokeStyle = INITIAL_COLOR; //펜의 색상
+ctx.fillStyle = INITIAL_COLOR; //채우기 색상
 ctx.lineWidth = 2.5; //펜의 두께
 
 const colors = document.querySelectorAll(".jsColor");
@@ -46,6 +50,11 @@ function onMouseMove(event) {
   }
 }
 
+function handleCanvasClick() {
+  if (filling) {
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+}
 if (canvas) {
   canvas.addEventListener("mousemove", onMouseMove);
 
@@ -57,11 +66,15 @@ if (canvas) {
 
   //캔버스 위에 있다가 마우스가 캔버스 위를 벗어났을 때 발생하는 이벤트
   canvas.addEventListener("mouseleave", stopPainting);
+
+  //캔버스를 클릭
+  canvas.addEventListener("click", handleCanvasClick);
 }
 
 function handleColorClick(event) {
   const color = event.target.style.backgroundColor;
   ctx.strokeStyle = color; //strokeStyle(펜 색깔)을 선택한 요소의 배경색깔로 바꿔준다.
+  ctx.fillStyle = color; //fillStyle(채우기 색깔)을 선택한 요소의 배경색깔로 바꿔준다.
 }
 colors.forEach((color) => color.addEventListener("click", handleColorClick));
 
