@@ -14,6 +14,7 @@ ctx.strokeStyle = "#2c2c2c"; //펜의 색상
 ctx.lineWidth = 2.5; //펜의 두께
 
 const colors = document.querySelectorAll(".jsColor");
+const range = document.querySelector("#jsRange");
 
 //그림 그리는 상태를 나타내는 변수 -> false면 그림 그리는 중이 아니다.
 let painting = false;
@@ -59,3 +60,12 @@ function handleColorClick(event) {
   ctx.strokeStyle = color; //strokeStyle(펜 색깔)을 선택한 요소의 배경색깔로 바꿔준다.
 }
 colors.forEach((color) => color.addEventListener("click", handleColorClick));
+
+function handleRangeChange(event) {
+  const lineWidth = event.target.value;
+  ctx.lineWidth = lineWidth;
+}
+if (range) {
+  //range는 값을 바꿀 때마다 input이 새로 설정되어 이벤트가 발생한다.
+  range.addEventListener("input", handleRangeChange);
+}
